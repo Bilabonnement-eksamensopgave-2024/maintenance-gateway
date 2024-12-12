@@ -21,6 +21,101 @@ MICROSERVICES = {
 # Initialize Swagger
 init_swagger(app)
 
+# ----------------------------------------------------- GET /
+# Root endpoint with gateway documentation
+@app.route('/', methods=['GET'])
+def service_info():
+    return jsonify({
+        "service": "Car and Damage Management Gateway",
+        "description": "This gateway routes requests to microservices handling cars, damage reports, and related financial operations.",
+        "endpoints": [
+            {
+                "path": "/cars",
+                "method": "GET",
+                "description": "Fetches a list of cars",
+                "response": "JSON array of car objects",
+                "role_required": "user or admin"
+            },
+            {
+                "path": "/cars/<id>",
+                "method": "GET",
+                "description": "Fetches details of a specific car by ID",
+                "response": "JSON object with car details",
+                "role_required": "user or admin"
+            },
+            {
+                "path": "/cars/<id>",
+                "method": "PATCH",
+                "description": "Updates details of a specific car by ID",
+                "response": "JSON object with updated car details",
+                "role_required": "admin"
+            },
+            {
+                "path": "/damage-types",
+                "method": "GET",
+                "description": "Fetches a list of all damage types",
+                "response": "JSON array of damage type objects",
+                "role_required": "admin"
+            },
+            {
+                "path": "/damage-types",
+                "method": "POST",
+                "description": "Adds a new damage type",
+                "response": "JSON object with new damage type",
+                "role_required": "admin"
+            },
+            {
+                "path": "/damage-types/<id>",
+                "method": "PATCH",
+                "description": "Updates details of a specific damage type by ID",
+                "response": "JSON object with updated damage type",
+                "role_required": "admin"
+            },
+            {
+                "path": "/damage-reports",
+                "method": "GET",
+                "description": "Fetches a list of all damage reports",
+                "response": "JSON array of damage report objects",
+                "role_required": "admin or finance"
+            },
+            {
+                "path": "/damage-reports",
+                "method": "POST",
+                "description": "Adds a new damage report",
+                "response": "JSON object with new damage report",
+                "role_required": "admin"
+            },
+            {
+                "path": "/damage-reports/cars/<id>",
+                "method": "GET",
+                "description": "Fetches damage reports for a specific car by ID",
+                "response": "JSON array of damage reports",
+                "role_required": "admin or finance"
+            },
+            {
+                "path": "/damage-reports/subscriptions/<id>/total-cost",
+                "method": "GET",
+                "description": "Fetches the total cost of damage reports for a specific subscription ID",
+                "response": "JSON object with total cost",
+                "role_required": "finance"
+            },
+            {
+                "path": "/login",
+                "method": "POST",
+                "description": "Authenticates a user and sets authorization cookies",
+                "response": "JSON object with token or error message",
+                "role_required": "none"
+            },
+            {
+                "path": "/health",
+                "method": "GET",
+                "description": "Returns the health status of the service",
+                "response": "JSON object with health status",
+                "role_required": "none"
+            }
+        ]
+    })
+
 
 # ----------------------------------------------------- GET /cars
 @app.route('/cars', methods=['GET'])
