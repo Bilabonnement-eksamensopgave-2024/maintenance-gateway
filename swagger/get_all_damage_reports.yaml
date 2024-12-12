@@ -1,0 +1,55 @@
+tags:
+  - name: Damage Reports
+summary: Retrieve all damage reports
+description: Retrieve a list of all damage reports from the database
+parameters: []
+responses:
+  200:
+    description: A list of damage reports
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              car_id:
+                type: integer
+                example: 101
+              subscription_id:
+                type: integer
+                example: 202
+              report_date:
+                type: string
+                format: date
+                example: "2024-12-01"
+              description:
+                type: string
+                example: "Scratch on the left door"
+              damage_type_id:
+                type: integer
+                example: 1
+              repair_cost:
+                type: number
+                format: float
+                example: 150.75
+  500:
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred"
+security:
+  - cookieAuth: []
+x-swagger-router-controller: get_damage_reports
+x-swagger-roles: 
+  - admin
+  - maintenance
+  - finance

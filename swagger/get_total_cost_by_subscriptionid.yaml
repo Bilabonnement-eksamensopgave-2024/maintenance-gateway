@@ -1,0 +1,51 @@
+# File: swagger/get_total_cost_by_subscriptionid.yaml
+tags:
+  - name: Damage Reports
+summary: Retrieve total repair cost by subscription ID
+description: Retrieve the total repair cost for a specific subscription by its ID
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+    description: The subscription ID
+responses:
+  200:
+    description: Total repair cost for the specified subscription
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            total_repair_cost:
+              type: number
+              format: float
+              example: 500.00
+  404:
+    description: Subscription not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Subscription not found"
+  500:
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred"
+security:
+  - cookieAuth: []
+x-swagger-router-controller: get_the_repair_cost_by_subid
+x-swagger-roles: 
+  - admin
+  - maintenance 
+  - finance              

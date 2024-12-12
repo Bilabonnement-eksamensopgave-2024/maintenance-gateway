@@ -1,0 +1,91 @@
+tags:
+  - name: Cars
+summary: Update car details
+description: Update specific details of a car by its ID.
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+    description: The car ID
+  - in: cookie
+    name: Authorization
+    required: true
+    schema:
+      type: string
+    description: JWT token with the required role - ['admin','maintenance']
+  - in: body
+    name: body
+    required: true
+    schema:
+      type: object
+      required:
+        - car_brand
+        - fuel_type
+      properties:
+        car_brand:
+          type: string
+          description: Brand of the car.
+          example: "Toyota"
+        car_type:
+          type: string
+          description: Type or model of the car (optional).
+          example: "SUV"
+        fuel_type:
+          type: string
+          description: Type of fuel the car uses.
+          example: "Petrol"
+        purchase_date:
+          type: string
+          format: date
+          description: Purchase date of the car in 'YYYY-MM-DD' format (optional).
+          example: "2023-06-15"
+        purchase_price:
+          type: integer
+          description: Price at which the car was purchased (optional).
+          example: 25000
+        km_driven_since_last_end_subscription:
+          type: integer
+          description: Kilometers driven since the last subscription ended (optional).
+          example: 1500
+        is_avaliable:
+          type: boolean
+          description: Indicates if the car is available (optional).
+          example: false
+responses:
+  200:
+    description: Car updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Car updated successfully"
+  400:
+    description: Invalid request
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Invalid car ID or missing required fields"
+  500:
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred"
+security:
+  - cookieAuth: []
+x-swagger-roles:
+  - admin
+  - maintenance

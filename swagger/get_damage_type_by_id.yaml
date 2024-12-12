@@ -1,0 +1,37 @@
+tags:
+  - name: Damage Types
+summary: Retrieve a specific damage type by ID
+description: Retrieve a specific damage type by ID
+parameters:
+  - name: id
+    in: path
+    required: true
+    description: ID of the damage type to retrieve
+    schema:
+      type: integer
+responses:
+  200:
+    description: A JSON object of a specific damage type
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            damage_type:
+              type: string
+            severity:
+              type: string
+            repair_cost:
+              type: integer
+  404:
+    description: Damage type not found
+  500:
+    description: Internal server error
+security:
+  - cookieAuth: []
+x-swagger-router-controller: find_type_by_id
+x-swagger-roles: 
+  - admin
+  - maintenance

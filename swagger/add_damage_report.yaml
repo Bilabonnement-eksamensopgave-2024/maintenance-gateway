@@ -1,0 +1,59 @@
+# File: swagger/add_damage_report.yaml
+tags:
+  - name: Damage Reports
+summary: Add a new damage report
+description: Add a new damage report to the database
+parameters:
+  - in: body
+    name: body
+    required: true
+    schema:
+      type: object
+      properties:
+        carid:
+          type: integer
+        subscriptionid:
+          type: integer
+        reportdate:
+          type: string
+          format: date
+        description:
+          type: string
+        damagetypeid:
+          type: integer
+      required:
+        - carid
+        - subscriptionid
+        - reportdate
+        - description
+        - damagetypeid
+  - in: cookie
+    name: Authorization
+    required: true
+    schema:
+      type: string
+    description: JWT token with one of the required roles - ['admin','maintenance']
+
+responses:
+  201:
+    description: New damage report added successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "New damage report added successfully."
+  400:
+    description: Bad request
+  409:
+    description: Conflict - Damage report already exists with these details
+  500:
+    description: Internal server error
+security:
+  - cookieAuth: []
+x-swagger-router-controller: add_damage_report
+x-swagger-roles: 
+  - admin
+  - maintenance

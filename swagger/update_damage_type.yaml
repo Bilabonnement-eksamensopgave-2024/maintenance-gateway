@@ -1,0 +1,59 @@
+tags:
+  - name: Damage Types
+summary: Update an existing damage type by ID
+description: Update an existing damage type by ID
+parameters:
+  - name: id
+    in: path
+    required: true
+    description: ID of the damage type to update
+    schema:
+      type: integer
+  - in: body
+    name: body
+    required: true
+    description: Damage type object to update
+    schema:
+      type: object
+      properties:
+        damage_type:
+          type: string
+          description: Name of the damage type
+          example: "Scratch"
+        severity:
+          type: string
+          description: Severity level of the damage
+          example: "High"
+        repair_cost:
+          type: integer
+          description: Estimated repair cost for this damage type
+          example: 300
+  - in: cookie
+    name: Authorization
+    required: true
+    schema:
+      type: string
+    description: JWT token with one of the required roles - ['admin','maintenance']
+responses:
+  200:
+    description: Damage type updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Damage type updated successfully."
+  400:
+    description: Bad request
+  404:
+    description: Damage type not found
+  500:
+    description: Internal server error
+security:
+  - cookieAuth: []
+x-swagger-router-controller: update_type
+x-swagger-roles: 
+  - admin
+  - maintenance 

@@ -1,0 +1,55 @@
+# File: swagger/add_damage_type.yaml
+tags:
+  - name: Damage Types
+summary: Add a new damage type
+description: Add a new damage type to the database
+
+parameters:
+  - in: body
+    name: body
+    required: true
+    description: Damage type object to add
+    schema:
+      type: object
+      properties:
+        damage_type:
+          type: string
+          description: The type of damage (e.g., "Scratch", "Dent").
+        severity:
+          type: string
+          description: The severity level of the damage (e.g., "Low", "High").
+        repair_cost:
+          type: integer
+          description: Estimated repair cost for the damage.
+      required:
+        - damage_type
+        - severity
+        - repair_cost
+  - in: cookie
+    name: Authorization
+    required: true
+    schema:
+      type: string
+    description: JWT token with one of the required roles - ['admin','maintenance']
+
+responses:
+  201:
+    description: New type added to database successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "New type added to database successfully."
+  400:
+    description: Bad request
+  500:
+    description: Internal server error
+security:
+  - cookieAuth: []
+x-swagger-router-controller: get_all_damage_types
+x-swagger-roles: 
+  - admin
+  - maintenance

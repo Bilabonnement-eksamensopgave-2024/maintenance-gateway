@@ -1,0 +1,41 @@
+tags:
+  - name: Cars
+summary: Get all cars
+description: Retrieve a list of all cars.
+parameters:
+  - in: cookie
+    name: Authorization
+    required: true
+    schema:
+      type: string
+    description: JWT token with the required role - ['admin','maintenance']
+responses:
+  200:
+    description: A list of cars
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              car_id:
+                type: integer
+              car_brand:
+                type: string
+              fuel_type:
+                type: string
+  500:
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+security:
+  - cookieAuth: []
+x-swagger-roles:
+  - admin
+  - maintenance

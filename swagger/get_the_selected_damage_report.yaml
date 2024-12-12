@@ -1,0 +1,69 @@
+# File: swagger/get_the_selected_damage_report.yaml
+tags:
+  - name: Damage Reports
+summary: Retrieve a damage report by ID
+description: Retrieve a specific damage report by its ID
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+    description: The damage report ID
+responses:
+  200:
+    description: A specific damage report
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            car_id:
+              type: integer
+              example: 101
+            subscription_id:
+              type: integer
+              example: 202
+            report_date:
+              type: string
+              format: date
+              example: "2024-12-01"
+            description:
+              type: string
+              example: "Scratch on the left door"
+            damage_type_id:
+              type: integer
+              example: 1
+            repair_cost:
+              type: number
+              format: float
+              example: 150.75
+  404:
+    description: Damage report not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Damage report not found"
+  500:
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred"
+security:
+  - cookieAuth: []
+x-swagger-router-controller: get_damage_reports_by_id
+x-swagger-roles: 
+  - admin
+  - maintenance 

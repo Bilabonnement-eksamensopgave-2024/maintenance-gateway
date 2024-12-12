@@ -1,0 +1,49 @@
+# File: swagger/delete_damage_report.yaml
+tags:
+  - name: Damage Reports
+summary: Delete a damage report by ID
+description: Delete a damage report by its ID
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+    description: The damage report ID
+responses:
+  200:
+    description: Damage report deleted successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Damage report deleted successfully"
+  404:
+    description: Damage report not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Damage report not found"
+  500:
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred"
+security:
+  - cookieAuth: []
+x-swagger-router-controller: delete_damage_report
+x-swagger-roles: 
+  - admin
+  - maintenance

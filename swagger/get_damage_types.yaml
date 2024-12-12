@@ -1,0 +1,33 @@
+tags:
+  - name: Damage Types
+summary: Retrieve all damage types
+description: Retrieve a list of all damage types
+responses:
+  200:
+    description: A JSON array of damage type objects
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              damage_type:
+                type: string
+              severity:
+                type: string
+              repair_cost:
+                type: integer
+  204:
+    description: No content
+  500:
+    description: Internal server error
+security:
+  - cookieAuth: []
+x-swagger-router-controller: get_all_damage_types
+x-swagger-roles: 
+  - admin
+  - maintenance
+  - finance

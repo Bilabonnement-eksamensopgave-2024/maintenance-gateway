@@ -24,7 +24,7 @@ init_swagger(app)
 
 # ----------------------------------------------------- GET /cars
 @app.route('/cars', methods=['GET'])
-#@swag_from('swagger/get_subscriptions.yaml') #TODO
+@swag_from('swagger/get_cars.yaml')
 def get_cars():
     response = requests.get(
         url=f"{MICROSERVICES['car']}/cars", 
@@ -45,7 +45,7 @@ def get_cars():
 
 # ----------------------------------------------------- GET /cars/<id>
 @app.route('/cars/<int:id>', methods=['GET'])
-#@swag_from('swagger/get_current_subscriptions_total_price.yaml') #TODO
+@swag_from('swagger/get_cars_by_id.yaml')
 def get_car_by_id(id):
     response = requests.get(f"{MICROSERVICES['car']}/cars/{id}",cookies=request.cookies)
     try: 
@@ -64,7 +64,7 @@ def get_car_by_id(id):
 
 # ----------------------------------------------------- PATCH /cars/<id>
 @app.route('/cars/<int:id>', methods=['PATCH'])
-#@swag_from('swagger/get_current_subscriptions_total_price.yaml') #TODO
+@swag_from('swagger/patch_car.yaml')
 def patch_car_by_id(id):
     response = requests.patch(f"{MICROSERVICES['car']}/cars/{id}",json=request.json ,cookies=request.cookies)
     try: 
@@ -83,11 +83,11 @@ def patch_car_by_id(id):
 
 
 
-# ----------------------------------------------------- GET /damage
+# ----------------------------------------------------- GET /damage-types
 @app.route('/damage-types', methods=['GET'])
 @swag_from('swagger/get_damage_types.yaml')
 def get_damage_types_route():
-    response = requests.get(f"{MICROSERVICES['c']}/cars/{id}",cookies=request.cookies)
+    response = requests.get(f"{MICROSERVICES['damage']}/damage-types",cookies=request.cookies)
     try: 
         data = response.json() 
     except requests.exceptions.JSONDecodeError: 
@@ -102,23 +102,252 @@ def get_damage_types_route():
         }), response.status_code
 
 
+# ----------------------------------------------------- GET /damage-types/<id>
+@app.route('/damage-types/<int:id>', methods=['GET'])
+@swag_from('swagger/get_damage_type_by_id.yaml')
+def get_damage_types_by_id_route(id):
+    response = requests.get(f"{MICROSERVICES['damage']}/damage-types/{id}",cookies=request.cookies)
+    try: 
+        data = response.json() 
+    except requests.exceptions.JSONDecodeError: 
+        data = []
+
+    if response.status_code in [200, 201, 204]:
+        return jsonify(data), response.status_code
+    else:
+        return jsonify({
+            "error": "Failed to fetch from microservice",
+            "data_returned_from_microservice": data
+        }), response.status_code
+
+
+
+
 # ----------------------------------------------------- POST /damage-report
 @app.route('/damage-types', methods=['POST'])
 @swag_from('swagger/add_damage_type.yaml')
-def add_to_types():
-    data = request.json
+def post_damage_reports_route():
+    response = requests.post(f"{MICROSERVICES['damage']}/damage-types",json=request.json,cookies=request.cookies)
+    try: 
+        data = response.json() 
+    except requests.exceptions.JSONDecodeError: 
+        data = []
 
-    if not data:
-        return jsonify({"message": "No data provided"}), 400
+    if response.status_code in [200, 201, 204]:
+        return jsonify(data), response.status_code
+    else:
+        return jsonify({
+            "error": "Failed to fetch from microservice",
+            "data_returned_from_microservice": data
+        }), response.status_code
 
-    try:
-        damage_type_item = _data_to_damage_type_dict(data)
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 400
 
-    result = add_new_types(damage_type_item)
-    return jsonify(result[1]), result[0]
+# ----------------------------------------------------- GET /damage-reports
 
+@app.route('/damage-reports', methods=['GET'])
+@swag_from('swagger/get_all_damage_reports.yaml')
+def get_damage_reports_route():
+    response = requests.get(f"{MICROSERVICES['damage']}/damage-reports",cookies=request.cookies)
+    try: 
+        data = response.json() 
+    except requests.exceptions.JSONDecodeError: 
+        data = []
+
+    if response.status_code in [200, 201, 204]:
+        return jsonify(data), response.status_code
+    else:
+        return jsonify({
+            "error": "Failed to fetch from microservice",
+            "data_returned_from_microservice": data
+        }), response.status_code
+
+# ----------------------------------------------------- GET /damage-reports/<id>
+
+@app.route('/damage-reports/<int:id>', methods=['GET'])
+@swag_from('swagger/get_the_selected_damage_report.yaml')
+def get_damage_reports_by_id_route(id):
+    response = requests.get(f"{MICROSERVICES['damage']}/damage-reports/{id}",cookies=request.cookies)
+    try: 
+        data = response.json() 
+    except requests.exceptions.JSONDecodeError: 
+        data = []
+
+    if response.status_code in [200, 201, 204]:
+        return jsonify(data), response.status_code
+    else:
+        return jsonify({
+            "error": "Failed to fetch from microservice",
+            "data_returned_from_microservice": data
+        }), response.status_code
+    
+
+
+# ----------------------------------------------------- GET /damage-reports/cars/<id>
+@app.route('/damage-reports/cars/<int:id>', methods=['GET'])
+@swag_from('swagger/get_the_selected_damage_report_carid.yaml')
+def get_damage_reports_by_car_id_route(id):
+    response = requests.get(f"{MICROSERVICES['damage']}/damage-reports/cars/{id}",cookies=request.cookies)
+    try: 
+        data = response.json() 
+    except requests.exceptions.JSONDecodeError: 
+        data = []
+
+    if response.status_code in [200, 201, 204]:
+        return jsonify(data), response.status_code
+    else:
+        return jsonify({
+            "error": "Failed to fetch from microservice",
+            "data_returned_from_microservice": data
+        }), response.status_code
+    
+
+
+# ----------------------------------------------------- GET /damage-reports/subscriptions/<id>
+@app.route('/damage-reports/subscriptions/<int:id>', methods=['GET'])
+@swag_from('swagger/get_the_selected_damage_report_subscriptionid.yaml')
+def get_damage_reports_by_subscriptions_id_route(id):
+    response = requests.get(f"{MICROSERVICES['damage']}/damage-reports/subscriptions/{id}",cookies=request.cookies)
+    try: 
+        data = response.json() 
+    except requests.exceptions.JSONDecodeError: 
+        data = []
+
+    if response.status_code in [200, 201, 204]:
+        return jsonify(data), response.status_code
+    else:
+        return jsonify({
+            "error": "Failed to fetch from microservice",
+            "data_returned_from_microservice": data
+        }), response.status_code
+
+# ----------------------------------------------------- GET /damage-reports/subscriptions/<id>/total-cost
+@app.route('/damage-reports/subscriptions/<int:id>/total-cost', methods=['GET'])
+@swag_from('swagger/get_total_cost_by_subscriptionid.yaml')
+def get_damage_reports_by_subscriptions_id_total_route(id):
+    response = requests.get(f"{MICROSERVICES['damage']}/damage-reports/subscriptions/{id}/total-cost",cookies=request.cookies)
+    try: 
+        data = response.json() 
+    except requests.exceptions.JSONDecodeError: 
+        data = []
+
+    if response.status_code in [200, 201, 204]:
+        return jsonify(data), response.status_code
+    else:
+        return jsonify({
+            "error": "Failed to fetch from microservice",
+            "data_returned_from_microservice": data
+        }), response.status_code
+
+
+# ----------------------------------------------------- PATCH /damage-reports/<id>
+@app.route('/damage-reports/<int:id>', methods=['PATCH'])
+@swag_from('swagger/update_damage_report_by_id.yaml')
+def patch_damage_report_by_id(id):
+    response = requests.patch(f"{MICROSERVICES['damage']}/damage-reports/{id}",json=request.json ,cookies=request.cookies)
+    try: 
+        data = response.json() 
+    except requests.exceptions.JSONDecodeError: 
+        data = []
+
+    if response.status_code in [200, 201, 204]:
+        return jsonify(data), response.status_code
+    else:
+        return jsonify({
+            "error": "Failed to fetch from microservice",
+            "data_returned_from_microservice": data
+        }), response.status_code
+    
+# ----------------------------------------------------- DELETE /damage-reports/<id>
+@app.route('/damage-reports/<int:id>', methods=['DELETE'])
+@swag_from('swagger/delete_damage_report.yaml')
+def delete_damage_report_by_id(id):
+    response = requests.delete(f"{MICROSERVICES['damage']}/damage-reports/{id}",json=request.json ,cookies=request.cookies)
+    try: 
+        data = response.json() 
+    except requests.exceptions.JSONDecodeError: 
+        data = []
+
+    if response.status_code in [200, 201, 204]:
+        return jsonify(data), response.status_code
+    else:
+        return jsonify({
+            "error": "Failed to fetch from microservice",
+            "data_returned_from_microservice": data
+        }), response.status_code
+    
+# ----------------------------------------------------- POST /damage-reports
+@app.route('/damage-reports', methods=['POST'])
+@swag_from('swagger/add_damage_report.yaml')
+def post_damage_report():
+    response = requests.post(f"{MICROSERVICES['damage']}/damage-reports",json=request.json ,cookies=request.cookies)
+    try: 
+        data = response.json() 
+    except requests.exceptions.JSONDecodeError: 
+        data = []
+
+    if response.status_code in [200, 201, 204]:
+        return jsonify(data), response.status_code
+    else:
+        return jsonify({
+            "error": "Failed to fetch from microservice",
+            "data_returned_from_microservice": data
+        }), response.status_code
+
+
+# ----------------------------------------------------- PATCH /damage-types/<id>
+@app.route('/damage-types/<int:id>', methods=['PATCH'])
+@swag_from('swagger/update_damage_type.yaml')
+def patch_damage_types_by_id(id):
+    response = requests.patch(f"{MICROSERVICES['damage']}/damage-types/{id}",json=request.json ,cookies=request.cookies)
+    try: 
+        data = response.json() 
+    except requests.exceptions.JSONDecodeError: 
+        data = []
+
+    if response.status_code in [200, 201, 204]:
+        return jsonify(data), response.status_code
+    else:
+        return jsonify({
+            "error": "Failed to fetch from microservice",
+            "data_returned_from_microservice": data
+        }), response.status_code
+
+
+# ----------------------------------------------------- DELETE /damage-types/<id>
+@app.route('/damage-types/<int:id>', methods=['DELETE'])
+@swag_from('swagger/delete_damage_type.yaml')
+def delete_damage_type_by_id(id):
+    response = requests.delete(f"{MICROSERVICES['damage']}/damage-types/{id}",json=request.json ,cookies=request.cookies)
+    try: 
+        data = response.json() 
+    except requests.exceptions.JSONDecodeError: 
+        data = []
+
+    if response.status_code in [200, 201, 204]:
+        return jsonify(data), response.status_code
+    else:
+        return jsonify({
+            "error": "Failed to fetch from microservice",
+            "data_returned_from_microservice": data
+        }), response.status_code
+    
+# ----------------------------------------------------- POST /damage-types
+@app.route('/damage-types', methods=['POST'])
+@swag_from('swagger/add_damage_type.yaml')
+def post_damage_type():
+    response = requests.post(f"{MICROSERVICES['damage']}/damage-types",json=request.json ,cookies=request.cookies)
+    try: 
+        data = response.json() 
+    except requests.exceptions.JSONDecodeError: 
+        data = []
+
+    if response.status_code in [200, 201, 204]:
+        return jsonify(data), response.status_code
+    else:
+        return jsonify({
+            "error": "Failed to fetch from microservice",
+            "data_returned_from_microservice": data
+        }), response.status_code
 
 
 
