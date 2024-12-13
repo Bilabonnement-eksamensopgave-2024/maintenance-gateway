@@ -10,6 +10,12 @@ parameters:
     schema:
       type: integer
     description: The car ID
+  - in: cookie
+    name: Authorization
+    required: false
+    schema:
+      type: string
+    description: JWT token with one of the required roles - ['admin','maintenance']
 responses:
   200:
     description: A list of damage reports for the specified car
@@ -65,7 +71,4 @@ responses:
               example: "An unexpected error occurred"
 security:
   - cookieAuth: []
-x-swagger-router-controller: get_damage_reports_by_carid
-x-swagger-roles: 
-  - admin
-  - maintenance             
+         

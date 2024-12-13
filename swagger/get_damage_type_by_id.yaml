@@ -9,6 +9,12 @@ parameters:
     description: ID of the damage type to retrieve
     schema:
       type: integer
+  - in: cookie
+    name: Authorization
+    required: false
+    schema:
+      type: string
+    description: JWT token with one of the required roles - ['admin','maintenance']
 responses:
   200:
     description: A JSON object of a specific damage type
@@ -31,7 +37,3 @@ responses:
     description: Internal server error
 security:
   - cookieAuth: []
-x-swagger-router-controller: find_type_by_id
-x-swagger-roles: 
-  - admin
-  - maintenance

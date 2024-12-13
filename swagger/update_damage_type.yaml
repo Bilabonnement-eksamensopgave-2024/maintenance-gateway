@@ -30,7 +30,7 @@ parameters:
           example: 300
   - in: cookie
     name: Authorization
-    required: true
+    required: false
     schema:
       type: string
     description: JWT token with one of the required roles - ['admin','maintenance']
@@ -53,7 +53,4 @@ responses:
     description: Internal server error
 security:
   - cookieAuth: []
-x-swagger-router-controller: update_type
-x-swagger-roles: 
-  - admin
-  - maintenance 
+

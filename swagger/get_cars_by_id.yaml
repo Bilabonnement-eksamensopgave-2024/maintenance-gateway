@@ -11,7 +11,7 @@ parameters:
     description: The car ID
   - in: cookie
     name: Authorization
-    required: true
+    required: false
     schema:
       type: string
     description: JWT token with the required role - ['admin','maintenance']
@@ -50,6 +50,3 @@ responses:
               type: string
 security:
   - cookieAuth: []
-x-swagger-roles:
-  - admin
-  - maintenance

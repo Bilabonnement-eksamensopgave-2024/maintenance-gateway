@@ -9,6 +9,12 @@ parameters:
     description: ID of the damage type to delete
     schema:
       type: integer
+  - in: cookie
+    name: Authorization
+    required: false
+    schema:
+      type: string
+    description: JWT token with one of the required roles - ['admin','maintenance']
 responses:
   204:
     description: Damage type deleted successfully
@@ -18,7 +24,4 @@ responses:
     description: Internal server error
 security:
   - cookieAuth: []
-x-swagger-router-controller: delete_type_by_id
-x-swagger-roles: 
-  - admin
-  - maintenance
+

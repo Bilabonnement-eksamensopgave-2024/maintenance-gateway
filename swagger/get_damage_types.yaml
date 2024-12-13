@@ -2,6 +2,13 @@ tags:
   - name: Damage Types
 summary: Retrieve all damage types
 description: Retrieve a list of all damage types
+parameters:
+  - in: cookie
+    name: Authorization
+    required: false
+    schema:
+      type: string
+    description: JWT token with one of the required roles - ['admin','maintenance']
 responses:
   200:
     description: A JSON array of damage type objects
@@ -26,8 +33,3 @@ responses:
     description: Internal server error
 security:
   - cookieAuth: []
-x-swagger-router-controller: get_all_damage_types
-x-swagger-roles: 
-  - admin
-  - maintenance
-  - finance

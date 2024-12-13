@@ -49,7 +49,7 @@ parameters:
         - damage_type_id
   - in: cookie
     name: Authorization
-    required: true
+    required: false
     schema:
       type: string
     description: JWT token with one of the required roles - ['admin','maintenance']
@@ -87,7 +87,3 @@ responses:
               example: "An unexpected error occurred"
 security:
   - cookieAuth: []
-x-swagger-router-controller: update_damage_report
-x-swagger-roles: 
-  - admin
-  - maintenance 

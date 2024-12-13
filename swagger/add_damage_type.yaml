@@ -27,7 +27,7 @@ parameters:
         - repair_cost
   - in: cookie
     name: Authorization
-    required: true
+    required: false
     schema:
       type: string
     description: JWT token with one of the required roles - ['admin','maintenance']
@@ -49,7 +49,3 @@ responses:
     description: Internal server error
 security:
   - cookieAuth: []
-x-swagger-router-controller: get_all_damage_types
-x-swagger-roles: 
-  - admin
-  - maintenance

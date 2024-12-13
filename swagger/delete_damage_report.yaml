@@ -10,6 +10,12 @@ parameters:
     schema:
       type: integer
     description: The damage report ID
+  - in: cookie
+    name: Authorization
+    required: false
+    schema:
+      type: string
+    description: JWT token with one of the required roles - ['admin','maintenance']
 responses:
   200:
     description: Damage report deleted successfully
@@ -43,7 +49,3 @@ responses:
               example: "An unexpected error occurred"
 security:
   - cookieAuth: []
-x-swagger-router-controller: delete_damage_report
-x-swagger-roles: 
-  - admin
-  - maintenance

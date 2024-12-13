@@ -10,6 +10,12 @@ parameters:
     schema:
       type: integer
     description: The subscription ID
+  - in: cookie
+    name: Authorization
+    required: false
+    schema:
+      type: string
+    description: JWT token with one of the required roles - ['admin','maintenance']
 responses:
   200:
     description: Total repair cost for the specified subscription
@@ -44,8 +50,3 @@ responses:
               example: "An unexpected error occurred"
 security:
   - cookieAuth: []
-x-swagger-router-controller: get_the_repair_cost_by_subid
-x-swagger-roles: 
-  - admin
-  - maintenance 
-  - finance              

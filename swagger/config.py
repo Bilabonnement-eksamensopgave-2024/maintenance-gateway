@@ -18,22 +18,24 @@ swagger_config = {
 
 template = {
     "info": {
-        "title": "Maintenance-gateway API",
+        "title": "Maintenance Gateway",
         "description": "API Gateway for managing maintenance operations including subscriptions, pricing, and damage cost summaries", #TODO
         "version": "1.0.0",
-        "contact": {
-            "name": "Finance Team",
-            "url": "https://finance-gateway.example.com"
-        }
+        
     },
     "securityDefinitions": {
-        "Bearer": {
+        "cookieAuth": {
             "type": "apiKey",
             "name": "Authorization",
-            "in": "header",
-            "description": "JWT Authorization header using the Bearer scheme. Example: \"{token}\""
+            "in": "cookie",
+            "description": "Example: '{token}'"
         }
-    }
+    },
+    "security": [
+        {
+            "cookieAuth": []
+        }
+    ]
 }
 
 def init_swagger(app):
