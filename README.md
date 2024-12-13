@@ -25,6 +25,18 @@ Acts as a central access point for routing requests between the car and damage m
 - Error handling and response standardization
 - Service health monitoring
 
+## Architecture
+### Diagram
+
+```mermaid
+graph LR
+    A[Browser] --> B[Maintenance Gateway]
+    B --> C[Damge Microservice]
+    B --> E[Car Microservice]
+    C --> D[Car Database]
+    E --> F[Damage Database]
+```
+
 ### Roles Required
 Different roles are required for different endpoints:
 - admin
@@ -58,9 +70,9 @@ Different roles are required for different endpoints:
 The gateway routes requests to three main microservices:
 ```python
 MICROSERVICES = {
-    "user": "http://localhost:5005",  # Default local URL
-    "car": "http://localhost:5006",   # Default local URL
-    "damage": "http://localhost:5007", # Default local URL
+    "user": "http://localhost:5005"
+    "car": "http://localhost:5006"
+    "damage": "http://localhost:5007"
 }
 ```
 
@@ -101,4 +113,4 @@ All endpoints return standardized responses:
   ```
 
 ## Swagger Documentation 
-Swagger UI is available at https://maintenance-gateway-ath4htbtdba4h4hw.northeurope-01.azurewebsites.net/docs
+Swagger UI is available at [Swagger](https://maintenance-gateway-ath4htbtdba4h4hw.northeurope-01.azurewebsites.net/docs)
